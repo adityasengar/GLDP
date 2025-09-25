@@ -103,10 +103,10 @@ main() {
 
     log "param.yaml generated and updated with correct paths."
 
-    # --- Step 3: Run chebnet_blind.py (HNO Encoder + Decoder2 Training) ---
-    log "Step 3/X: Running chebnet_blind.py to train HNO and Decoder2..."
-    python "${PIPELINE_DIR}/chebnet_blind.py" --config "${PARAM_FILE}"
-    log "chebnet_blind.py execution complete. Models trained and initial outputs generated."
+    # --- Step 3: Run train_autoencoder.py (HNO Encoder + Decoder2 Training) ---
+    log "Step 3/X: Running train_autoencoder.py to train HNO and Decoder2..."
+    python "${PIPELINE_DIR}/train_autoencoder.py" --config "${PARAM_FILE}"
+    log "train_autoencoder.py execution complete. Models trained and initial outputs generated."
 
     # --- Step 4: Run Koopman or Neural Propagator Pipeline ---
     if [[ "${METHOD}" == "koopman" ]]; then
@@ -135,7 +135,7 @@ main() {
                     --rollout_noise_std "${stdev_float}" \
                     --output_file "${output_prefix}.npy"
 
-                python "${PIPELINE_DIR}/inference_old.py" \
+                python "${PIPELINE_DIR}/decode_trajectory.py" \
                     --config "${PARAM_FILE}" \
                     --hno_ckpt "checkpoints/hno_checkpoint.pth" \
                     --decoder2_ckpt "checkpoints/decoder2_checkpoint.pth" \
@@ -187,7 +187,7 @@ main() {
                 --frame_skip 1 \
                 --rollout_noise_std "${stdev_float}"
 
-            python "${PIPELINE_DIR}/inference_old.py" \
+            python "${PIPELINE_DIR}/decode_trajectory.py" \
                 --config "${PARAM_FILE}" \
                 --hno_ckpt "checkpoints/hno_checkpoint.pth" \
                 --decoder2_ckpt "checkpoints/decoder2_checkpoint.pth" \
