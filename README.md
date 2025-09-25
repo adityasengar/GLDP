@@ -8,7 +8,7 @@ The core idea is to use a pre-trained Graph Neural Network to encode high-dimens
 
 The GLDP framework follows a modular encoder-propagator-decoder pipeline:
 
-![GLDP Framework Overview](https://imgur.com/k7YW1sV)
+![GLDP Framework Overview](https://imgur.com/k7YW1sV.png)
 *(Note: You can replace the URL above with a link to an image of Figure 1 from your paper.)*
 
 1.  **Encoder**: A pre-trained ChebNet GNN maps all-atom coordinates to a low-dimensional latent vector `z(t)`.
