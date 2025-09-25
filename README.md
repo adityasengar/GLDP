@@ -8,7 +8,7 @@ The core idea is to use a pre-trained Graph Neural Network to encode high-dimens
 
 The GLDP framework follows a modular encoder-propagator-decoder pipeline:
 
-![GLDP Framework Overview](https://i.imgur.com/your_figure_1_url_here.png)
+![GLDP Framework Overview](https://i.imgur.com/0IZ1tXi.png)
 *(Note: You can replace the URL above with a link to an image of Figure 1 from your paper.)*
 
 1.  **Encoder**: A pre-trained ChebNet GNN maps all-atom coordinates to a low-dimensional latent vector `z(t)`.
@@ -125,15 +125,3 @@ gldp_repository/
     *   `train_neural_propagator.py` (Neural Network)
 5.  **Decoding & Analysis**: The new latent trajectory is decoded back into all-atom 3D coordinates (`inference_old.py`), converted to a standard format (`convert_h5_to_xtc.py`), and evaluated against the native trajectory (`analyze_rmsd.py`).
 
-## Citation
-
-If you use this work, please cite the original paper:
-
-```bibtex
-@article{sengar2025gldp,
-  title={Beyond Ensembles: Simulating All-Atom Protein Dynamics in a Learned Latent Space},
-  author={Antiquus S. Hippocampus and Natalia Cerebro and Amelie P. Amygdale and Aditya Sengar},
-  journal={bioRxiv},
-  year={2025}
-}
-```
