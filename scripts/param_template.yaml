@@ -1,0 +1,51 @@
+cuda_device: 0
+data:
+  json_path: {{RESIDUES_DATA_JSON_PATH}}
+  pdb_path: {{HEAVY_CHAIN_PDB_PATH}}
+data_augmentation:
+  augmentation_factor: 1
+  enabled: false
+  initial_noise_std_range:
+  - 0.1
+  - 0.8
+  target_ca_rmsd: 1.0
+decoder2:
+  base_loss_weight: 1.0
+  batch_size: 16
+  learning_rate: 0.0005
+  num_epochs: 10 # Set to 10 for testing
+  save_interval: 10
+decoder2_settings:
+  conditioner_mode: z_ref
+  cross_attention_type: residue
+  mlp_hidden_dim: 128
+  num_hidden_layers: 12
+  output_height: 50
+  output_height2: 100
+  output_width: 1
+  output_width2: 20
+  pooling_type: blind
+  use_cross_attention: false
+  use_second_level_pooling: false
+dihedral_loss:
+  divergence_type: JS
+  lambda_divergence: 0.1
+  lambda_torsion_mse: 1.0
+  torsion_info_path: {{CONDENSED_JSON_PATH}}
+  use_dihedral_loss: false
+force_cpu: false
+graph:
+  knn_value: 4
+hno_encoder:
+  batch_size: 16
+  cheb_order: 4
+  hidden_dim: 8
+  learning_rate: 0.0005
+  num_epochs: 10 # Set to 10 for testing
+  save_interval: 10
+log_file: logfile.log
+num_workers: 0
+output_directories:
+  checkpoint_dir: checkpoints
+  latent_dir: latent_reps
+  structure_dir: structures

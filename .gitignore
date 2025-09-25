@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.idea/
+.vscode/
+
+# Data and Outputs (user should not commit these)
+*.pdb
+*.xtc
+*.json
+*.h5
+*.log
+*.pth
+*.npy
+run_*/
+!/scripts/param_template.yaml
+!/scripts/requirements.txt
+!/scripts/requirements_tested.txt
