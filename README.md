@@ -35,7 +35,7 @@ source venv/bin/activate
 
 ## Usage
 
-The entire pipeline is orchestrated by the `run_pipeline.sh` script. It handles data preprocessing, model training, simulation, and analysis in a single command.
+The `run_pipeline.sh` script automates the entire workflow for the **Koopman** and **Neural Network** propagators. It handles data preprocessing, model training, simulation, and analysis in a single command.
 
 **Command:**
 ```bash
@@ -48,7 +48,6 @@ The entire pipeline is orchestrated by the `run_pipeline.sh` script. It handles 
 *   `<method>`: The propagation method to use. Choose from:
     *   `koopman`: For the Koopman operator.
     *   `neural`: For the autoregressive neural network.
-    *   `langevin`: For score-guided Langevin dynamics.
 
 **Example:**
 ```bash
@@ -57,6 +56,34 @@ The entire pipeline is orchestrated by the `run_pipeline.sh` script. It handles 
 ```
 
 Each run creates a unique, timestamped output directory (e.g., `run_20250915_210144/`) containing all logs, models, and generated data. The final analysis, which identifies the best-generated trajectory, will be printed to `pipeline_run.log` inside that directory.
+
+### Langevin Dynamics Simulation (Manual Steps)
+
+Running the score-guided Langevin dynamics simulation is a manual, multi-step process that requires running the scripts individually after the initial setup.
+
+**Prerequisite:** You must first have a `pooled_embedding.h5` file. You can generate this by running the automated pipeline (e.g., with the `koopman` method) and letting it complete Step 3 (the `chebnet_blind.py` script). The file will be in the `latent_reps/` subdirectory of the run.
+
+**Step 1: Train the Score Model**
+Use `new_diff.py` to train the diffusion model on the latent embeddings. This model is necessary to calculate the score (effective force) for the Langevin simulation.
+```bash
+python new_diff.py \
+    --h5_file path/to/your/run_*/latent_reps/pooled_embedding.h5 \
+    --output_model_path path/to/your/run_*/checkpoints/score_model.pth \
+    --epochs 50000
+```
+
+**Step 2: Run the Langevin Simulation**
+Use `simulate_dynamics.py` to perform the simulation in the latent space, using the trained score model from the previous step.
+```bash
+python simulate_dynamics.py \
+    --score_model_path path/to/your/run_*/checkpoints/score_model.pth \
+    --h5_file path/to/your/run_*/latent_reps/pooled_embedding.h5 \
+    --output_file path/to/your/run_*/latent_reps/langevin_rollout.h5 \
+    --num_steps 100000
+```
+
+**Step 3: Decode the Latent Trajectory**
+Finally, use `inference_old.py` and `convert_h5_to_xtc.py` to decode the generated latent trajectory (`langevin_rollout.h5`) back into an all-atom XTC file, which can then be analyzed. You can adapt the commands from the `run_pipeline.sh` script for this step.
 
 ## Repository Structure
 
